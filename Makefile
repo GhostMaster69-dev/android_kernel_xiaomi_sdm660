@@ -704,6 +704,10 @@ else
 KBUILD_CFLAGS   += -O2
 endif
 
+ifdef CONFIG_CC_WERROR
+KBUILD_CFLAGS	+= -Werror
+endif
+
 # Tell gcc to never replace conditional load with a non-conditional one
 KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
 KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
@@ -974,6 +978,7 @@ KBUILD_CFLAGS  += $(call cc-option,-fno-stack-check,)
 # conserve stack if available
 KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
 
+ifdef CONFIG_CC_WERROR
 # disallow errors like 'EXPORT_GPL(foo);' with missing header
 KBUILD_CFLAGS   += $(call cc-option,-Werror=implicit-int)
 
@@ -988,6 +993,7 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
 
 # Require designated initializers for all marked structures
 KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
+endif
 
 # change __FILE__ to the relative path from the srctree
 KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
