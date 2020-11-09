@@ -1016,3 +1016,8 @@ out:
 	mutex_unlock(&sdmx_lock[session_handle]);
 	return ret;
 }
+
+MODULE_LICENSE("GPL v2");
+MODULE_AUTHOR("Pratik Patel <pratikp@codeaurora.org>");
+MODULE_AUTHOR("Mathieu Poirier <mathieu.poirier@linaro.org>");
+MODULE_DESCRIPTION("Arm CoreSight tracer driver");

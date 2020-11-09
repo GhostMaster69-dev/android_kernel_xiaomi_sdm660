@@ -5332,3 +5332,8 @@ int mpq_dmx_oob_command(struct dvb_demux_feed *feed,
 	mutex_unlock(&mpq_demux->mutex);
 	return ret;
 }
+
+MODULE_LICENSE("GPL v2");
+MODULE_AUTHOR("Pratik Patel <pratikp@codeaurora.org>");
+MODULE_AUTHOR("Mathieu Poirier <mathieu.poirier@linaro.org>");
+MODULE_DESCRIPTION("Arm CoreSight tracer driver");
