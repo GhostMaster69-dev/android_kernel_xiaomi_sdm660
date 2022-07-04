@@ -14,13 +14,10 @@
 #include "longcheer/common/longcheer-sdm660-base.dtsi"
 #include "longcheer/wayne/wayne-common-base.dtsi"
 
+/* sdm660.dtsi jasmine specific diff */
 &firmware {
 	android {
 		/delete-node/ vbmeta;
-		fstab {
-			vendor {
-				mnt_flags = "ro,barrier=1";
-			};
-		};
+		/delete-node/ fstab;
 	};
 };
