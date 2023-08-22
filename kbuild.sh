@@ -18,6 +18,7 @@ KBUILD_BUILD_USER="ghostmaster69-dev"
 KBUILD_BUILD_HOST="codespace"
 TZ="Asia/Kolkata"
 ZIP_DIR="$HOME/AnyKernel3"
+GH_REPO="GhostMaster69-dev/android_kernel_xiaomi_sdm660"
 
 # Ask Telegram Channel/Chat ID
 if [ -z "$CHANNEL_ID" ]; then
@@ -142,6 +143,13 @@ function tg_push_logs() {
 	    -F caption="Build Finished after $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds"
 }
 
+# GH Release
+function gh_release() {
+    gh release create v$(date +%Y.%-m.%-d | cut -c 4-) $(echo $ZIP_DIR/*.zip) --latest -n "What's New ($(date +"%d %B %Y")):" --generate-notes -t Release -R $GH_REPO &>/dev/null
+    gh release delete-asset v$(date +%Y.%-m.%-d | cut -c 4-) *.zip -y -R $GH_REPO &>/dev/null
+    gh release upload v$(date +%Y.%-m.%-d | cut -c 4-) $(echo $ZIP_DIR/*.zip) $KERNEL_IMG --clobber -R $GH_REPO
+}
+
 # The magic begins here.
 clone_tc
 PATH="$TC_PATH/bin:$PATH"
@@ -174,5 +182,6 @@ if ! [ -a "$KERNEL_IMG" ]; then
 else
     tg_push_logs
     make_flashable
+    gh_release
     tg_pushzip
 fi
