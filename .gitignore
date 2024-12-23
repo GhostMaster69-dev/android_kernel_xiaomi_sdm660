@@ -129,4 +129,4 @@ Android.bp
 out/
 
 # KSU
-KernelSU/
+KernelSU*/
