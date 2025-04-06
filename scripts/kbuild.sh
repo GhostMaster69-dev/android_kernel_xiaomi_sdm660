@@ -189,7 +189,7 @@ for target in "${targets[@]}"; do
         continue
     else
         tg_push_logs
-        export TAG="QTI-"
+        export TAG="QTI-DYN-"
         make_flashable
         tg_pushzip
     fi
