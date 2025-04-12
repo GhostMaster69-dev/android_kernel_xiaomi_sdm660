@@ -19,8 +19,31 @@ if [ -z "$TELEGRAM_TOKEN" ]; then
     TELEGRAM_TOKEN="$tg_token"
 fi
 
+# Supported devices
+devices=("jasmine" "jason" "lavender" "platina" "tulip" "wayne" "whyred")
+
+# Determine the target device based on the origin URL
+origin_url=$(git remote get-url --push origin 2>/dev/null)
+
+# Initialize an empty array for targets
+targets=()
+found_target=""
+
 # Target Devices
-targets=("jasmine" "jason" "lavender" "platina" "tulip" "wayne" "whyred")
+if [[ -n "$origin_url" ]]; then
+    for known_target in "${devices[@]}"; do
+        if [[ "$origin_url" == *"$known_target"* ]]; then
+            targets+=("$known_target")
+            found_target=true
+            break
+        fi
+    done
+fi
+
+# If no match found or origin_url is empty, default to all devices
+if ! [[ "$found_target" == true ]]; then
+    targets=("${devices[@]}")
+fi
 
 # Build Env
 TC_PATH="$HOME/clang-android"
