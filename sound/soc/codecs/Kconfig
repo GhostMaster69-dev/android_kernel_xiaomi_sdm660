@@ -664,6 +664,10 @@ config SND_SOC_TFA9879
 	tristate "NXP Semiconductors TFA9879 amplifier"
 	depends on I2C
 
+config SND_SOC_TFA9894
+	tristate "NXP Semiconductors TFA9894 amplifier"
+	depends on I2C
+
 config SND_SOC_TLV320AIC23
 	tristate
 
@@ -766,6 +770,9 @@ config SND_SOC_WCD_CPE
 config AUDIO_EXT_CLK
 	tristate
 	default y if SND_SOC_WCD9335=y || SND_SOC_WCD9330=y || SND_SOC_SDM660_CDC=y
+
+config SND_SOC_USB_HEADSET
+	tristate "Xiaomi USB analog headset driver"
 
 config SND_SOC_WCD_MBHC
 	tristate
@@ -993,6 +1000,12 @@ config SND_SOC_MSM_HDMI_CODEC_RX
 	help
 	HDMI audio drivers should be built only if the platform
         supports hdmi panel.
+
+config SND_I2S_PRIMARY
+	bool "Primary I2S Driver support"
+
+config SND_SOC_MAX98937
+	tristate "maxim Instruments 98937 SmartAmp(R)"
 
 source "sound/soc/codecs/sdm660_cdc/Kconfig"
 source "sound/soc/codecs/msm_sdw/Kconfig"

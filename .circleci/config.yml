@@ -1,0 +1,10 @@
+jobs:
+  build:
+    docker:
+      - image: 31482281/codespace:latest
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+         name: Run script to start building kernel
+         command: bash scripts/kbuild.sh

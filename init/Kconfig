@@ -1236,8 +1236,16 @@ config SOCK_CGROUP_DATA
 
 endif # CGROUPS
 
+config SCHED_BOOST
+	bool "Scheduler boost support"
+	help
+	  Scheduler boost is a mechanism to temporarily place tasks on CPUs
+	  with higher capacity than those where a task would have normally
+	  ended up with their load characteristics.
+
 config SCHED_HMP
 	bool "Scheduler support for heterogenous multi-processor systems"
+	select SCHED_BOOST
 	depends on SMP && FAIR_GROUP_SCHED
 	help
 	  This feature will let the scheduler optimize task placement on
@@ -1371,6 +1379,16 @@ config SCHED_TUNE
 
 	  Since this support exposes a single system-wide knob, the specified
 	  boost value is applied to all (CFS) tasks in the system.
+
+	  If unsure, say N.
+
+config DYNAMIC_STUNE_BOOST
+	bool "Dynamic SchedTune boosting support"
+	select SCHED_BOOST
+	depends on SCHED_TUNE && CGROUP_SCHEDTUNE
+	help
+	  This option extends the SchedTune framework and provides APIs to
+	  activate and reset SchedTune boosting from anywhere in the kernel.
 
 	  If unsure, say N.
 
@@ -1511,8 +1529,6 @@ config BPF
 
 menuconfig EXPERT
 	bool "Configure standard kernel features (expert users)"
-	# Unhide debug options, to make the on-by-default options visible
-	select DEBUG_KERNEL
 	help
 	  This option allows certain base kernel options and settings
           to be disabled or tweaked. This is for specialized
@@ -1587,7 +1603,7 @@ config KALLSYMS
 
 config KALLSYMS_ALL
 	bool "Include all symbols in kallsyms"
-	depends on DEBUG_KERNEL && KALLSYMS
+	depends on KALLSYMS
 	help
 	   Normally kallsyms only contains the symbols of functions for nicer
 	   OOPS messages and backtraces (i.e., symbols from the text and inittext

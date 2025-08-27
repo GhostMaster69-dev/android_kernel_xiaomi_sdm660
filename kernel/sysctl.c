@@ -118,6 +118,9 @@ extern int sysctl_nr_open_min, sysctl_nr_open_max;
 #ifndef CONFIG_MMU
 extern int sysctl_nr_trim_pages;
 #endif
+#ifdef CONFIG_SWAP_CONSIDER_CMA_FREE
+extern int swap_thresh_cma_free_pages;
+#endif
 
 /* Constants used for minimum and  maximum */
 #ifdef CONFIG_LOCKUP_DETECTOR
@@ -312,6 +315,10 @@ static int max_sched_tunable_scaling = SCHED_TUNABLESCALING_END-1;
 #ifdef CONFIG_COMPACTION
 static int min_extfrag_threshold;
 static int max_extfrag_threshold = 1000;
+#endif
+
+#ifdef CONFIG_SWAP_CONSIDER_CMA_FREE
+static int max_swap_thresh_cma_free_pages = INT_MAX;
 #endif
 
 static struct ctl_table kern_table[] = {
@@ -526,15 +533,6 @@ static struct ctl_table kern_table[] = {
 		.extra2		= &one_thousand,
 	},
 	{
-		.procname	= "sched_boost",
-		.data		= &sysctl_sched_boost,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler	= sched_boost_handler,
-		.extra1         = &zero,
-		.extra2		= &three,
-	},
-	{
 		.procname	= "sched_short_burst_ns",
 		.data		= &sysctl_sched_short_burst,
 		.maxlen		= sizeof(unsigned int),
@@ -549,6 +547,17 @@ static struct ctl_table kern_table[] = {
 		.proc_handler   = proc_dointvec,
 	},
 #endif	/* CONFIG_SCHED_HMP */
+#ifdef CONFIG_SCHED_BOOST
+	{
+		.procname       = "sched_boost",
+		.data           = &sysctl_sched_boost,
+		.maxlen         = sizeof(unsigned int),
+		.mode           = 0644,
+		.proc_handler   = sched_boost_handler,
+		.extra1         = &zero,
+		.extra2         = &three,
+	},
+#endif /* CONFIG_SCHED_BOOST */
 #ifdef CONFIG_SCHED_DEBUG
 	{
 		.procname	= "sched_min_granularity_ns",
@@ -1979,6 +1988,17 @@ static struct ctl_table vm_table[] = {
 		.maxlen		= sizeof(sysctl_swap_ratio_enable),
 		.mode		= 0644,
 		.proc_handler	= proc_dointvec_minmax,
+	},
+#endif
+#ifdef CONFIG_SWAP_CONSIDER_CMA_FREE
+	{
+		.procname	= "swap_thresh_cma_free_pages",
+		.data		= &swap_thresh_cma_free_pages,
+		.maxlen		= sizeof(swap_thresh_cma_free_pages),
+		.mode		= 0644,
+		.proc_handler	= proc_dointvec_minmax,
+		.extra1		= &zero,
+		.extra2		= &max_swap_thresh_cma_free_pages,
 	},
 #endif
 	{ }
