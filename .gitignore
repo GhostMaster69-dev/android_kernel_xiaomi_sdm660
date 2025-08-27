@@ -126,7 +126,7 @@ android/configs/android-*.cfg
 Android.bp
 
 # Ignore object directory
-out/
+out*/
 
 # KSU
 KernelSU*/

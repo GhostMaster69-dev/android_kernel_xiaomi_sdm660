@@ -20,8 +20,8 @@ if [ -z "$TELEGRAM_TOKEN" ]; then
 fi
 
 # Supported devices
-devices=("jasmine" "jason" "lavender" "platina" "tulip" "wayne" "whyred")
-
+# devices=("jasmine" "jason" "lavender" "platina" "tulip" "wayne" "whyred")
+devices=("lavender")
 # Determine the target device based on the origin URL
 origin_url=$(git remote get-url --push origin 2>/dev/null)
 
